@@ -1,0 +1,37 @@
+#################################################################
+## Input Boolean
+#################################################################
+  normal_lights:
+    name: 'Normal Lights'
+    initial: off
+    icon: mdi:power
+
+  bedtime:
+    name: 'Bedtime'
+    initial: off
+    icon: mdi:power
+
+  guest_mode:
+    name: 'Guest Mode'
+    initial: off
+    icon: mdi:account
+
+  movie_lighting_downstairs:
+    name: 'Movie Lighting Downstairs'
+    initial: on
+    icon: mdi:theater
+
+  movie_lighting_upstairs:
+    name: 'Movie Lighting Upstairs'
+    initial: on
+    icon: mdi:theater
+
+  home_theater:
+    name: 'Home Theater'
+    initial: on
+    icon: mdi:power
+
+#  guestlockcode:
+#    name: 'Guest Lock Code'
+#    initial: off
+#    icon: mdi:key

@@ -1,0 +1,62 @@
+- id: '1544705508774'
+  alias: Google Goodnight
+  trigger:
+  - platform: webhook
+    webhook_id: GoogleGoodnight
+  condition: []
+  action:
+  - data:
+      entity_id: script.bedtime_script
+    service: script.turn_on
+- id: '1544705849740'
+  alias: AlexaGoodnight
+  trigger:
+  - platform: webhook
+    webhook_id: AlexaGoodnight
+  - entity_id: input_boolean.bedtime
+    from: 'off'
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - data:
+      entity_id: script.bedtime_script
+    service: script.turn_on
+- id: '1544755081908'
+  alias: Leave Home
+  trigger:
+  - entity_id: group.household
+    from: home
+    platform: state
+    to: not_home
+  condition: []
+  action:
+  - service: light.turn_off
+  - data:
+      entity_id: fan.ge_master_bedroom_fanswitch_level
+    service: fan.turn_off
+  - data:
+      entity_id: switch.switch_3
+    service: switch.turn_off
+- id: '1544796084714'
+  alias: Startup Theme
+  trigger:
+  - event: start
+    platform: homeassistant
+  condition: []
+  action:
+  - data:
+      name: dark-red
+    service: frontend.set_theme
+- id: '1545453975427'
+  alias: Marissa Home
+  trigger:
+  - entity_id: group.marissa_devices
+    from: not_home
+    platform: state
+    to: home
+  condition: []
+  action:
+  - data:
+      entity_id: script.upstairs_normal_lights
+    service: script.turn_on

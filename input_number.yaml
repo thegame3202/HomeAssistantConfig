@@ -1,0 +1,11 @@
+#################################################################
+## Input Number
+#################################################################
+
+   
+  cabinet_lights_animation_speed:
+    name: Cabinet Lights Animation Speed
+    initial: 100
+    min: 10
+    max: 150
+    step: 10

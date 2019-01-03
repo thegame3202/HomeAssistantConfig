@@ -1,0 +1,325 @@
+#################################################################
+## Groups
+#################################################################
+
+##################
+##     TABS     ##
+##################
+  default_view:
+    name: Favorites
+    view: yes
+    icon: mdi:home
+    entities:
+      - device_tracker.mikes_phone
+      - device_tracker.marissas_phone
+      - group.entry_items
+      - group.light_groups
+      - group.climate_controls
+      # - group.harmony_volume_controls
+
+  cameras:
+    name: Cameras
+    view: yes
+    icon: mdi:cctv
+    entities:
+      - camera.front_door
+      - camera.backyard
+      - camera.garage
+
+  security:
+    name: Security
+    view: yes
+    icon: mdi:lock
+    entities:
+      - group.entry_items
+      - group.general_sensors
+      - group.cameras
+
+  lights:
+    name: Lights
+    view: yes
+    icon: mdi:lightbulb-outline
+    entities:
+      - group.hue_lights
+      - group.upstairs_living_room_lights
+      - group.kitchen_lights
+      - group.office_lights
+      - group.bedroom_lights
+      - group.downstairs_living_room_lights
+      - group.master_bedroom_lights
+      - group.outside_lights
+      - group.lighting_modes
+      - light.upstairs_living_room_lights
+
+  rooms:
+    name: Rooms
+    view: yes
+    icon: mdi:floor-plan
+    entities:
+      - group.upstairs_living_room
+      - group.office
+      - group.master_bedroom
+      - group.kitchen
+      - group.downstairs_living_room
+      - group.outside
+      - group.wifi_switches
+
+  sensors:
+    name: Sensors
+    view: yes
+    icon: mdi:gauge
+    entities:
+      - group.machine_info
+      - group.web_shortcuts
+      - group.batteries
+      - group.nest_device_statuses
+
+  automation:
+    name: Automation
+    view: yes
+    icon: mdi:robot
+    entities:
+      - group.automation_switches
+      - group.input_automations
+      - group.lighting_modes
+
+###################
+##    GROUPS     ##
+###################
+  machine_info:
+    name: System Info
+    entities:
+      - sensor.disk_use_home
+      - sensor.disk_free_home
+      - sensor.disk_free_mntcontent
+      - sensor.disk_free_mntcontent2
+      - sensor.disk_free_mntcontent3
+      - sensor.ram_free
+      - sensor.cpu_use
+      - sensor.last_boot
+      - sensor.since_last_boot
+      - sensor.ssl_certificate_expiry
+
+  Media Player:
+    - media_player.apple_tv
+    # - sensor.harmony_living_room
+
+  Web Shortcuts:
+    - weblink.plex_requests
+    - weblink.radarr
+    - weblink.sonarr
+    - weblink.sabnzbd
+
+  Thermostat Info:
+    - climate.home
+    - sensor.home_temperature
+    - sensor.office_temperature
+    - sensor.home_humidity
+    - binary_sensor.home_occupancy
+    - binary_sensor.downstairs_occupancy
+
+  Household:
+    - device_tracker.mikes_phone
+    - device_tracker.marissas_phone
+
+  Mike Devices:
+    - device_tracker.mikes_phone
+
+  Marissa Devices:
+    - device_tracker.marissas_phone
+
+  Automation Switches:
+    - automation.arrive_home
+#    - automation.bedtime_procedure
+#    - automation.cabinet_lights_animation_speed
+#    - automation.christmas_lighting
+    - automation.doorbell_lights
+#    - automation.easter_lighting
+    - automation.front_door_notification
+    - automation.garage_door_notification
+    - automation.garage_door_notification_night
+#    - automation.halloween_lighting
+#    - automation.independence_day
+    - automation.leave_home
+#    - automation.media_player_paused
+#    - automation.media_player_playing
+#    - automation.media_player_stopped
+#    - automation.memorial_day_lighting
+#    - automation.movie_lighting
+#    - automation.normal
+    - automation.normal_morning_lights
+    - automation.outside_lights_off
+    - automation.outside_lights_on
+#    - automation.party_lighting
+#    - automation.reset_input_boolean
+#    - automation.saint_patricks_day_lighting
+    - automation.sunrise_shades
+    - automation.sunrise_shades_weekday
+    - automation.sunset_lights
+    - automation.sunset_shades
+#    - automation.thanksgiving_lighting
+#    - automation.update_notifications
+#    - automation.valentines_day_lighting
+    - automation.wakeup_lights
+#    - automation.water_detected_laundry_room
+#    - automation.water_sensor_ready
+#    - automation.zwave_network_is_ready
+
+
+  Lighting Modes:
+    - input_select.presetlights
+
+  Cameras:
+    - camera.front_door
+    - camera.garage
+
+  Nest Cameras:
+    - camera.garage
+    - camera.front_door
+
+  Input Automations:
+    name: 'Automation Control'
+    entities:
+      - input_boolean.guest_mode
+      - input_boolean.movie_lighting
+      - input_boolean.bedtime
+      - input_boolean.normal_lights
+
+  Entry Items:
+    - lock.schlage_front_door_locked
+    - cover.main_garage
+
+  General Sensors:
+    - binary_sensor.laundry_room_water_sensor
+
+  Light Groups:
+    - light.downstairs_living_room_lights
+    - light.upstairs_living_room_lights
+    - light.master_bedroom_lights
+    - light.office_lights
+    - light.cabinet_lights
+
+  Climate Controls:
+    - climate.home
+    - cover.living_room_shade_level
+    - fan.ge_master_bedroom_fanswitch_level
+    - script.bedroom_fan_15
+
+  # Harmony Volume Controls:
+  #   - script.harmony_volume_up
+  #   - script.harmony_volume_down
+
+  Batteries:
+    - sensor.basement_nest_protect_battery_health
+    - sensor.laundry_water_sensor_battery
+    - sensor.living_room_shade_battery
+    - sensor.front_door_battery
+
+  Nest Device Statuses:
+    - binary_sensor.basement_nest_protect_online
+    - binary_sensor.garage_camera_online
+    - binary_sensor.front_door_camera_online
+    - sensor.basement_nest_protect_co_status
+    - sensor.basement_nest_protect_smoke_status
+    - binary_sensor.front_door_camera__front_yard_activity
+    - binary_sensor.front_door_camera_motion_detected
+    - binary_sensor.garage_camera_motion_detected
+    - binary_sensor.front_door_camera_person_detected
+    - binary_sensor.garage_camera_person_detected
+
+  
+##################
+##    LIGHTS    ##
+##################
+  Hue Lights:
+    name: All Lights
+    entities:
+      - light.upstairslr1
+      - light.upstairslr2
+      - light.upstairslr3
+      - light.marissa_desk
+      - light.office_lamp_1
+      - light.masterbr1
+      - light.masterbr2
+      - light.downstairslr1
+      - light.downstairslr2
+      - light.cabinet_lights
+
+  Interior Lights:
+    - group.kitchen_lights
+    - group.upstairs_living_room_lights
+    - group.office_lights
+    - group.bedroom_lights
+    - group.downstairslr_lights
+
+  Upstairs Living Room Lights:
+    - light.upstairslr1
+    - light.upstairslr2
+    - light.upstairslr3
+
+  Downstairs Living Room Lights:
+    - light.downstairslr1
+    - light.downstairslr2
+
+  Master Bedroom Lights:
+    - light.masterbr1
+    - light.masterbr2
+
+  Office Lights:
+    - light.office_lamp_1
+    - light.marissa_desk
+    
+  Outside Lights:
+    - switch.ge_outside_light_switch
+
+  Kitchen Lights:
+    - light.cabinet_lights
+    - input_number.cabinet_lights_animation_speed
+
+  Coming Home Lights:
+    - light.upstairslr1
+    - light.upstairslr2
+    - light.upstairslr3
+    - light.downstairslr1
+    - light.downstairslr2
+
+  Wifi Switches:
+    - switch.switch_1
+    - switch.switch_2
+    - switch.switch_3
+
+###################
+##     ROOMS     ##
+###################
+  Upstairs Living Room:
+      - group.upstairs_living_room_lights
+      - cover.living_room_shade_level
+      - sensor.home_temperature
+      - sensor.home_humidity
+
+  Office:
+    - group.office_lights
+    - sensor.office_temperature
+
+  Kitchen:
+    - light.cabinet_lights
+    - input_number.cabinet_lights_animation_speed
+    
+  Downstairs Living Room:
+    - group.downstairs_living_room_lights
+    # - input_boolean.harmony_volume_up
+    # - input_boolean.harmony_volume_down
+    - sensor.basement_nest_protect_co_status
+    - sensor.basement_nest_protect_smoke_status
+    - sensor.downstairs_temperature
+
+  Master Bedroom:
+    - group.master_bedroom_lights
+    - fan.ge_master_bedroom_fanswitch_level
+    - script.bedroom_fan_15
+    - sensor.master_bedroom_temperature
+
+  Outside:
+    - group.outside_lights
+    - lock.schlage_front_door_locked
+    - cover.main_garage

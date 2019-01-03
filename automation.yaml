@@ -1,0 +1,528 @@
+##########################################################
+## Zwave ready notification
+##########################################################
+- alias: Z-Wave network is ready
+  trigger:
+    platform: event
+    event_type: zwave.network_ready
+
+  action:
+    - service: notify.pushover
+      data:
+       message: 'Zwave ready.'
+
+##########################################################
+## Set initial theme
+##########################################################
+- alias: 'Set theme at startup'
+  initial_state: 'on'
+  trigger:
+    - platform: homeassistant
+      event: start
+  action:
+    service: frontend.set_theme
+    data:
+      name: dark-red
+
+##########################################################
+## Turn on outside lights at night
+##########################################################
+- alias: 'Outside Lights On'
+
+  trigger:
+    - platform: sun
+      event: sunset
+      offset: "-00:30:00"
+
+  action:
+    - service: switch.turn_on
+      entity_id: switch.ge_outside_light_switch
+
+    - service: switch.turn_on
+      entity_id: switch.switch_1
+
+#    - service: switch.turn_on
+#      entity_id: switch.switch_2
+
+    # - service: switch.turn_on
+    #   entity_id: switch.switch_3
+
+##########################################################
+## Turn off outside lights
+##########################################################
+- alias: Outside Lights Off
+
+  trigger:
+    - platform: time
+      at: '00:23:59'
+
+  action:
+    - service: switch.turn_off
+      entity_id: switch.ge_outside_light_switch
+
+    - service: switch.turn_off
+      entity_id: switch.switch_1
+
+##########################################################
+## Turn on Lights at Sunset IF home
+##########################################################
+- alias: Sunset Lights
+
+  trigger:
+    - platform: sun
+      event: sunset
+      offset: "-01:00:00"
+
+  condition:
+    - condition: state
+      entity_id: group.household
+      state: 'home'
+
+  action:
+    - service: script.turn_on
+      entity_id: script.downstairs_normal_lights
+    - service: switch.turn_on
+      entity_id: switch.switch_3
+
+##########################################################
+## Fade lights on starting at 6:15am until 6:30am
+##########################################################
+- alias: Wakeup Lights
+
+  trigger:
+    - platform: time
+      at: '06:15:00'
+
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: group.household
+        state: 'home'
+      - condition: state
+        entity_id: input_boolean.guest_mode
+        state: 'off'
+      - condition: time
+        weekday:
+          - mon
+          - tue
+          - wed
+          - thu
+          - fri
+
+  action:
+    - service: light.turn_on
+      entity_id: group.master_bedroom_lights
+      data:
+        transition: 900
+        brightness: 200
+
+##########################################################
+## Turn on Normal Lights at 8:30am if Still Home
+##########################################################
+- alias: Normal Morning Lights
+
+  trigger:
+    - platform: time
+      at: '08:30:00'
+
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: group.household
+        state: 'home'
+      - condition: state
+        entity_id: input_boolean.guest_mode
+        state: 'off'
+
+  action:
+    - service: script.turn_on
+      entity_id: script.downstairs_normal_lights
+    - service: switch.turn_on
+      entity_id: switch.switch_3
+
+##########################################################
+## Turn on Lights when home
+##########################################################
+- alias: Arrive Home
+
+  trigger:
+    - platform: state
+      entity_id: group.household
+      from: 'not_home'
+      to: 'home'
+
+  action:
+    - service: script.turn_on
+      entity_id: script.downstairs_normal_lights
+    - service: switch.turn_on
+      entity_id: switch.switch_3
+#    - service: switch.turn_on
+#      entity_id: switch.switch_2
+
+##########################################################
+## Apple TV Lights On/Off Downstairs
+##########################################################
+- alias: "Media player stopped"
+
+  trigger:
+    - platform: state
+      entity_id: media_player.apple_tv_4k
+      to: 'idle'
+    - platform: state
+      entity_id: media_player.apple_tv_4k
+      to: 'Off'
+
+  condition:
+    - condition: state
+      entity_id: input_boolean.movie_lighting_downstairs
+      state: 'on'
+
+  action:
+    - service: script.turn_on
+      entity_id: script.downstairs_normal_lights
+
+- alias: "Media player paused"
+
+  trigger:
+    - platform: state
+      entity_id: media_player.apple_tv_4k
+      to: 'paused'
+      from: 'playing'
+
+  condition:
+    - condition: state
+      entity_id: input_boolean.movie_lighting_downstairs
+      state: 'on'
+
+  action:
+    - service: script.turn_on
+      entity_id: script.downstairs_normal_lights
+
+- alias: "Media player playing"
+
+  trigger:
+    - platform: state
+      entity_id: media_player.apple_tv_4k
+      to: 'playing'
+
+  condition:
+    - condition: state
+      entity_id: input_boolean.movie_lighting_downstairs
+      state: 'on'
+
+  action:
+    - service: script.turn_on
+      entity_id: script.downstairs_movie_lights
+
+##########################################################
+## Apple TV Lights On/Off Upstairs
+##########################################################
+- alias: "Media player stopped2"
+
+  trigger:
+    - platform: state
+      entity_id: media_player.apple_tv
+      to: 'idle'
+    - platform: state
+      entity_id: media_player.apple_tv
+      to: 'Off'
+
+  condition:
+    - condition: state
+      entity_id: input_boolean.movie_lighting_upstairs
+      state: 'on'
+
+  action:
+    - service: script.turn_on
+      entity_id: script.upstairs_normal_lights
+
+- alias: "Media player paused2"
+
+  trigger:
+    - platform: state
+      entity_id: media_player.apple_tv
+      to: 'paused'
+      from: 'playing'
+
+  condition:
+    - condition: state
+      entity_id: input_boolean.movie_lighting_upstairs
+      state: 'on'
+
+  action:
+    - service: script.turn_on
+      entity_id: script.upstairs_normal_lights
+
+- alias: "Media player playing2"
+
+  trigger:
+    - platform: state
+      entity_id: media_player.apple_tv
+      to: 'playing'
+
+  condition:
+    - condition: state
+      entity_id: input_boolean.movie_lighting_upstairs
+      state: 'on'
+
+  action:
+    - service: script.turn_on
+      entity_id: script.upstairs_movie_lights
+
+##########################################################
+## Office Doorbell Lights
+##########################################################
+# - alias: Doorbell Lights
+
+#   trigger:
+#     - platform: state
+#       entity_id: binary_sensor.front_door_camera_person_detected
+#       to: 'on'
+
+#   condition:
+#     condition: and
+#     conditions:
+#       - condition: state
+#         entity_id: group.household
+#         state: 'home'
+#       - condition: state
+#         entity_id: light.office_lamp_1
+#         state: 'on'
+
+#   action:
+#     - service: light.turn_on
+#       entity_id: light.office_lamp_1
+#       data:
+#        brightness_pct: 100
+#        color_name: blue
+#     - delay: 00:00:01
+#     - service: light.turn_off
+#       entity_id: light.office_lamp_1
+#     - delay: 00:00:01
+#     - service: light.turn_on
+#       entity_id: light.office_lamp_1
+#       data:
+#        brightness_pct: 100
+#        color_name: blue
+#     - delay: 00:00:01
+#     - service: light.turn_off
+#       entity_id: light.office_lamp_1
+#     - delay: 00:00:01
+#     - service: light.turn_on
+#       entity_id: light.office_lamp_1
+#       data:
+#        brightness_pct: 100
+#        color_name: blue
+#     - delay: 00:00:01
+#     - service: light.turn_on
+#       entity_id: light.office_lamp_1
+#       data:
+#         brightness_pct: 100
+#         profile: relax
+
+##########################################################
+## Notify if garage door open after away
+##########################################################
+- alias: Garage Door Notification
+
+  trigger:
+    - platform: state
+      entity_id: group.household
+      to: 'not_home'
+
+  condition:
+    - condition: state
+      entity_id: cover.main_garage
+      state: 'open'
+
+  action:
+    - service: notify.pushover
+      data:
+       message: 'Garage door left open!'
+
+##########################################################
+## Notify if front door not locked after away
+##########################################################
+- alias: Front Door Notification
+
+  trigger:
+    - platform: state
+      entity_id: group.household
+      to: 'not_home'
+
+  condition:
+    - condition: state
+      entity_id: lock.schlage_front_door_locked
+      state: 'unlocked'
+
+  action:
+    - service: notify.pushover
+      data:
+       message: 'Front door not locked!'
+
+##########################################################
+## Notify if water sensor tripped
+##########################################################
+- alias: Water detected laundry room
+
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.laundry_room_water_sensor
+      to: 'on'
+
+  action:
+    - service: notify.pushover
+      data:
+       message: 'Water detected in laundry room!'
+
+##########################################################
+## Notify if garage door open at night
+##########################################################
+- alias: Garage Door Notification Night
+
+  trigger:
+    - platform: time
+      minutes: '/10'
+      seconds: 00
+
+  condition:
+    condition: and
+    conditions:
+      - condition: time
+        after: '20:00:00'
+        before: '05:00:00'
+
+      - condition: state
+        entity_id: cover.main_garage
+        state: 'open'
+        for:
+          minutes: 20
+          seconds: 00
+
+  action:
+    - service: notify.pushover
+      data:
+       message: 'Garage door open!'
+
+##########################################################
+## Cabinet Light Automations
+##########################################################
+- alias: "Cabinet Lights Animation Speed"
+  initial_state: True
+  hide_entity: False
+  trigger:
+    - platform: state
+      entity_id: input_number.cabinet_lights_animation_speed
+  action:
+    - service: mqtt.publish
+      data_template:
+        topic: "bruh/cabinetlights/set"
+        payload: '{"transition":{{ trigger.to_state.state | int }}}'
+
+##########################################################
+## Reset Amazon Echo input_booleans to OFF every two minutes
+##########################################################
+- alias: Reset input boolean
+
+  trigger:
+    platform: time
+    minutes: '/2'
+    seconds: 0
+
+  condition:
+    condition: or
+    conditions:
+      - condition: state
+        entity_id: input_boolean.normal_lights
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.bedtime
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.home_theater
+        state: 'off'
+
+  action:
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.normal_lights
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.bedtime
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.home_theater
+
+##########################################################
+## Open living room shades one hour after sunrise - WEEKENDS
+##########################################################
+- alias: Sunrise Shades
+
+  trigger:
+    - platform: sun
+      event: sunrise
+      offset: "+01:00:00"
+
+  condition:
+    - condition: state
+      entity_id: group.household
+      state: 'home'
+    - condition: time
+      weekday:
+        - sat
+        - sun
+
+  action:
+    - service: cover.open_cover
+      entity_id: cover.living_room_shade_level
+
+##########################################################
+## Open living room shades 45 minutes before sunrise - WEEKDAYS
+##########################################################
+- alias: Sunrise Shades Weekday
+
+  trigger:
+    - platform: sun
+      event: sunrise
+      offset: "-00:45:00"
+
+  condition:
+    - condition: time
+      weekday:
+        - mon
+        - tue
+        - wed
+        - thu
+        - fri
+
+  action:
+    - service: cover.open_cover
+      entity_id: cover.living_room_shade_level
+
+##########################################################
+## Close living room shades 30 minutes after sunset
+##########################################################
+- alias: Sunset Shades
+
+  trigger:
+    - platform: sun
+      event: sunset
+      offset: "+04:00:00"
+
+  action:
+    - service: cover.close_cover
+      entity_id: cover.living_room_shade_level
+
+##########################################################
+## IFTTT Integration
+##########################################################
+# - alias: IFTTT Integration
+
+#   trigger:
+#     platform: event
+#     event_type: ifttt_webhook_received
+#     event_data:
+#       action: call_service
+#   action:
+#     service_template: '{{ trigger.event.data.service }}'
+#     data_template:
+#       entity_id: '{{ trigger.event.data.entity_id }}'

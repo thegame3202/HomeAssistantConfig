@@ -1,0 +1,540 @@
+title: Hamilton Home
+resources:
+  - url: /local/gauge-card.js?v=0.2.0
+    type: js
+  - url: /local/bignumber-card.js?v=0.0.1
+    type: js
+  - url: /local/monster-card.js
+    type: js
+  - url: /local/button-card.js
+    type: module
+  - url: /local/vertical-stack-in-card.js?v=0.0.32
+    type: js
+
+views:
+  - title: Home
+    id: Home
+    icon: mdi:home
+    theme: dark-red
+    cards:
+      - type: vertical-stack
+        cards:
+        - type: picture-entity
+          camera_image: camera.garage
+          entity: cover.main_garage
+        - type: picture-entity
+          camera_image: camera.front_door
+          entity: lock.schlage_front_door_locked
+
+      - type: entities
+        title: Who's Home
+        show_header_toggle: false
+        entities:
+          - device_tracker.mikes_phone
+          - device_tracker.marissas_phone
+
+      - type: entities
+        title: Climate Controls
+        show_header_toggle: false
+        entities:
+          - climate.home
+          - cover.living_room_shade_level
+          - fan.ge_master_bedroom_fanswitch_level
+          - script.bedroom_fan_15
+
+      - type: entity-filter
+        entities:
+          - light.upstairslr1
+          - light.upstairslr2
+          - light.upstairslr3
+          - light.marissa_desk
+          - light.mike_desk_left
+          - light.mike_desk_right
+          - light.office_lamp_1
+          - light.masterbr1
+          - light.masterbr2
+          - light.downstairslr1
+          - light.downstairslr2
+          - light.ge_basement_dimmer_level
+          - light.cabinet_lights
+          - switch.ge_outside_light_switch
+        state_filter:
+          - 'on'
+        card:
+          title: Lights Currently On
+
+      - type: entities
+        title: Wifi Switches
+        show_header_toggle: true
+        entities:  
+          - switch.switch_1
+          - switch.switch_2
+          - switch.switch_3
+          - switch.energy_switch_1
+          - switch.energy_switch_2
+
+      - type: entities
+        title: Media Info
+        show_header_toggle: false
+        entities:
+          - media_player.apple_tv
+          - media_player.apple_tv_4k
+          - media_player.denon_avrx4400h
+
+      # - type: vertical-stack
+      #   cards:
+      #     - type: entities
+      #       title: 'Harmony Remote'
+      #       entities:
+      #         - type: divider
+      #     - type: custom:button-card
+      #       icon: mdi:power-standby
+      #       name: 'Off'
+      #       style:
+      #         - font-size: 12px
+      #       size: 15%
+
+      #       action: service
+      #       service:
+      #         domain: remote
+      #         action: turn_off
+      #         data:
+      #           entity_id: remote.living_room
+      #     - type: horizontal-stack
+      #       cards:
+      #         - type: custom:button-card
+      #           icon: mdi:apple
+      #           action: service
+      #           service:
+      #             domain: remote
+      #             action: turn_on
+      #             data:
+      #               entity_id: remote.living_room
+      #               activity: 22093837
+      #         - type: custom:button-card
+      #           icon: mdi:playstation
+      #           action: service
+      #           service:
+      #             domain: remote
+      #             action: turn_on
+      #             data:
+      #               entity_id: remote.living_room
+      #               activity: 22093836
+      #         - type: custom:button-card
+      #           icon: mdi:virtual-reality
+      #           action: service
+      #           service:
+      #             domain: remote
+      #             action: turn_on
+      #             data:
+      #               entity_id: remote.living_room
+      #               activity: 36482936
+      #         - type: custom:button-card
+      #           icon: mdi:nintendo-switch
+      #           action: service
+      #           service:
+      #             domain: remote
+      #             action: turn_on
+      #             data:
+      #               entity_id: remote.living_room
+      #               activity: 26562506
+      #     - type: entities
+      #       entities:
+      #         - type: divider
+      #     - type: horizontal-stack
+      #       cards:
+      #         - type: custom:button-card
+      #           name: 'Receiver -5'
+      #           style:
+      #             - font-size: 12px
+      #           icon: mdi:volume-minus
+      #           size: 30%
+      #           action: service
+      #           service:
+      #             domain: remote
+      #             action: send_command
+      #             data:
+      #               entity_id: remote.living_room
+      #               command:
+      #                 - VolumeDown
+      #               num_repeats: 5
+      #               delay_secs: 0.3
+      #               device: 38920354
+      #         - type: custom:button-card
+      #           name: 'Receiver -1'
+      #           style:
+      #             - font-size: 12px
+      #           icon: mdi:volume-minus
+      #           size: 30%
+      #           action: service
+      #           service:
+      #             domain: remote
+      #             action: send_command
+      #             data:
+      #               entity_id: remote.living_room
+      #               command:
+      #                 - VolumeDown
+      #               device: 38920354
+      #         - type: custom:button-card
+      #           name: 'Receiver +1'
+      #           style:
+      #             - font-size: 12px
+      #           icon: mdi:volume-plus
+      #           size: 30%
+      #           action: service
+      #           service:
+      #             domain: remote
+      #             action: send_command
+      #             data:
+      #               entity_id: remote.living_room
+      #               command:
+      #                 - VolumeUp
+      #               device: 38920354
+      #         - type: custom:button-card
+      #           name: 'Receiver +5'
+      #           style:
+      #             - font-size: 12px
+      #           icon: mdi:volume-plus
+      #           size: 30%
+      #           action: service
+      #           service:
+      #             domain: remote
+      #             action: send_command
+      #             data:
+      #               entity_id: remote.living_room
+      #               command:
+      #                 - VolumeUp
+      #               num_repeats: 5
+      #               delay_secs: 0.3
+      #               device: 38920354
+      #     - type: entities
+      #       entities:
+      #         - type: divider
+      #     - type: horizontal-stack
+      #       cards:
+      #         - type: custom:button-card
+      #           name: 'TV -5'
+      #           style:
+      #             - font-size: 12px
+      #           icon: mdi:volume-minus
+      #           size: 30%
+      #           action: service
+      #           service:
+      #             domain: remote
+      #             action: send_command
+      #             data:
+      #               entity_id: remote.living_room
+      #               command:
+      #                 - VolumeDown
+      #               num_repeats: 5
+      #               delay_secs: 0.3
+      #               device: 58635431
+      #         - type: custom:button-card
+      #           name: 'TV -1'
+      #           style:
+      #             - font-size: 12px
+      #           icon: mdi:volume-minus
+      #           size: 30%
+      #           action: service
+      #           service:
+      #             domain: remote
+      #             action: send_command
+      #             data:
+      #               entity_id: remote.living_room
+      #               command:
+      #                 - VolumeDown
+      #               device: 58635431
+      #         - type: custom:button-card
+      #           name: 'TV +1'
+      #           style:
+      #             - font-size: 12px
+      #           icon: mdi:volume-plus
+      #           size: 30%
+      #           action: service
+      #           service:
+      #             domain: remote
+      #             action: send_command
+      #             data:
+      #               entity_id: remote.living_room
+      #               command:
+      #                 - VolumeUp
+      #               device: 58635431
+      #         - type: custom:button-card
+      #           name: 'TV +5'
+      #           style:
+      #             - font-size: 12px
+      #           icon: mdi:volume-plus
+      #           size: 30%
+      #           action: service
+      #           service:
+      #             domain: remote
+      #             action: send_command
+      #             data:
+      #               entity_id: remote.living_room
+      #               command:
+      #                 - VolumeUp
+      #               num_repeats: 5
+      #               delay_secs: 0.3
+      #               device: 58635431
+          # - type: entities
+          #   entities:
+          #     - type: divider
+
+  - title: Cameras
+    id: Cameras
+    icon: mdi:cctv
+    theme: dark-red
+    cards:
+      - type: picture-entity
+        entity: camera.garage
+        show_name: true
+        show_state: false
+      - type: picture-entity
+        entity: camera.front_door
+        show_name: true
+        show_state: false
+      - type: picture-entity
+        entity: camera.backyard
+        show_name: true
+        show_state: false
+      - type: picture-entity
+        entity: camera.driveway
+        show_name: true
+        show_state: false
+
+  - title: Lights
+    id: Lights
+    icon: mdi:lightbulb
+    theme: dark-red
+    cards:
+      - type: entity-filter
+        entities:
+          - light.cabinet_lights
+          - light.downstairslr1
+          - light.downstairslr2
+          - light.ge_basement_dimmer_level
+          - light.marissa_desk
+          - light.mike_desk_left
+          - light.mike_desk_right
+          - light.masterbr1
+          - light.masterbr2
+          - light.office_lamp_1
+          - switch.ge_outside_light_switch
+          - light.upstairslr1
+          - light.upstairslr2
+          - light.upstairslr3
+        state_filter:
+          - 'on'
+        card:
+          title: Lights Currently On
+  
+      - type: entity-filter
+        entities:
+          - light.cabinet_lights
+          - light.downstairslr1
+          - light.downstairslr2
+          - light.ge_basement_dimmer_level
+          - light.marissa_desk
+          - light.mike_desk_left
+          - light.mike_desk_right
+          - light.masterbr1
+          - light.masterbr2
+          - light.office_lamp_1
+          - switch.ge_outside_light_switch
+          - light.upstairslr1
+          - light.upstairslr2
+          - light.upstairslr3
+        state_filter:
+          - 'off'
+        card:
+          title: Lights Currently Off
+
+      - type: entities
+        title: Light Controls
+        show_header_toggle: false
+        entities:
+          - input_number.cabinet_lights_animation_speed
+          - input_select.presetlights
+
+      - type: entities
+        title: Light Groups
+        show_header_toggle: true
+        entities:
+          - light.downstairs_living_room_lights
+          - light.master_bedroom_lights
+          - light.office_lights
+          - light.upstairs_living_room_lights
+
+  # - title: Remote
+  #   id: NoderedRemote
+  #   icon: mdi:remote
+  #   theme: dark-red
+  #   panel: true
+  #   cards:
+  #     - type: iframe
+  #       url: https://nodered.hamiltonhome.me/ui
+  #       aspect_ratio: 200%
+
+  - title: Sensors
+    id: Sensors
+    icon: mdi:gauge
+    theme: dark-red
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: horizontal-stack
+            cards:
+              - type: custom:bignumber-card
+                title: Front Door Battery
+                entity: sensor.front_door_battery
+                min: 0
+                max: 100
+                from: left
+                scale: 25px
+                severity:
+                  - value: 15
+                    style: 'var(--label-badge-red)'
+                  - value: 40
+                    style: 'var(--label-badge-yellow)'
+                  - value: 100
+                    style: 'var(--label-badge-green)'
+              - type: custom:bignumber-card
+                title: Living Room Shade Battery
+                entity: sensor.living_room_shade_battery
+                min: 0
+                max: 100
+                from: left
+                scale: 25px
+                severity:
+                  - value: 15
+                    style: 'var(--label-badge-red)'
+                  - value: 40
+                    style: 'var(--label-badge-yellow)'
+                  - value: 100
+                    style: 'var(--label-badge-green)'
+          - type: horizontal-stack
+            cards:
+              - type: custom:bignumber-card
+                title: Laundry Water Sensor Battery
+                entity: sensor.laundry_water_sensor_battery
+                min: 0
+                max: 100
+                from: left
+                scale: 25px
+                severity:
+                  - value: 15
+                    style: 'var(--label-badge-red)'
+                  - value: 40
+                    style: 'var(--label-badge-yellow)'
+                  - value: 100
+                    style: 'var(--label-badge-green)'
+              - type: custom:bignumber-card
+                title: SSL Cert
+                entity: sensor.ssl_certificate_expiry
+                min: 0
+                max: 90
+                from: left
+                scale: 25px
+                severity:
+                  - value: 15
+                    style: 'var(--label-badge-red)'
+                  - value: 30
+                    style: 'var(--label-badge-yellow)'
+                  - value: 90
+                    style: 'var(--label-badge-green)'
+      - type: entities
+        title: Quick Links
+        show_header_toggle: false
+        entities:
+          - type: weblink
+            name: Plex Requests
+            icon: mdi:account-alert
+            url: !secret ombi_url
+          - type: divider
+          - type: weblink
+            name: PlexPy
+            icon: mdi:chart-line
+            url: !secret plexpy_url
+          - type: divider
+          - type: weblink
+            name: Unifi
+            icon: mdi:access-point-network
+            url: !secret unifi_url
+          - type: divider
+          - type: weblink
+            name: Radarr
+            icon: mdi:movie-roll
+            url: !secret radarr_url
+          - type: divider
+          - type: weblink
+            name: Sonarr
+            icon: mdi:television-box
+            url: !secret sonarr_url
+          - type: divider
+          - type: weblink
+            name: SabNZBD
+            icon: mdi:download
+            url: !secret sabnzbd_url
+
+      - type: entities
+        title: System Info
+        show_header_toggle: false
+        entities:
+          - sensor.disk_free_home
+          - sensor.disk_free_mntcontent
+          - sensor.disk_free_mntcontent2
+          - sensor.disk_free_mntcontent3
+          - sensor.last_boot
+          - sensor.since_last_boot
+
+      - type: entities
+        title: Media Info
+        show_header_toggle: false
+        entities:
+          - media_player.apple_tv
+          - media_player.apple_tv_4k
+          - media_player.denon_avrx4400h
+
+      - type: history-graph
+        title: Energy Switch Usage History
+        entities:
+          - entity: sensor.energy_switch_1_usage_history
+            name: Energy Switch 1
+          - entity: sensor.energy_switch_2_usage_history
+            name: Energy Switch 2
+        refresh_interval: 600
+        hours_to_show: 24
+
+  - title: Automations
+    id: Automations
+    icon: mdi:robot
+    theme: dark-cyan
+    cards:
+      - type: entities
+        title: Automations Enabled
+        show_header_toggle: false
+        entities:
+          - automation.arrive_home
+          - automation.doorbell_lights
+          - automation.front_door_notification
+          - automation.garage_door_notification
+          - automation.garage_door_notification_night
+          - automation.leave_home
+          - automation.normal_morning_lights
+          - automation.outside_lights_off
+          - automation.outside_lights_on
+          - automation.sunrise_shades
+          - automation.sunrise_shades_weekday
+          - automation.sunset_lights
+          - automation.sunset_shades
+          - automation.wakeup_lights
+
+      - type: entities
+        title: Automation Control
+        show_header_toggle: false
+        entities:
+          - input_boolean.guest_mode
+          - input_boolean.movie_lighting_downstairs
+          - input_boolean.movie_lighting_upstairs
+          - input_boolean.bedtime
+          - input_boolean.normal_lights

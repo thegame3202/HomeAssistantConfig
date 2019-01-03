@@ -1,0 +1,11 @@
+denon_blu_ray:
+  alias: 'Denon Blu Ray'
+  sequence:
+    - service: media_player.turn_on
+      data:
+        entity_id: media_player.denon_avrx4400h
+    - delay: '00:00:02'
+    - service: media_player.select_source
+      data:
+        entity_id: media_player.denon_avrx4400h
+        source: 'Blu-ray'

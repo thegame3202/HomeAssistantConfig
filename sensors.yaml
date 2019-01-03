@@ -1,0 +1,90 @@
+- platform: systemmonitor
+  resources:
+    - type: disk_free
+      arg: '/home'
+    - type: disk_free
+      arg: '/mnt/content'
+    - type: disk_free
+      arg: '/mnt/content2'
+    - type: disk_free
+      arg: '/mnt/content3'
+    - type: last_boot
+
+- platform: darksky
+  api_key: !secret darksky_api
+  forecast:
+    - 1
+    - 2
+    - 3
+  monitored_conditions:
+    - summary
+    - precip_probability
+    - temperature
+    - wind_speed
+    - hourly_summary
+    - icon
+    - temperature_high
+    - temperature_low
+
+- platform: cert_expiry
+  host: hamiltonhome.me
+
+- platform: template
+  sensors:
+    home_occupancy:
+      value_template: "{%if states.binary_sensor.home_occupancy.state == 'on' %}Occupied{%elif states.binary_sensor.home_occupancy.state == 'off' %}Not Occupied{% endif %}"
+      friendly_name: 'Upstairs Living Room Occupancy'
+
+    downstairs_occupancy:
+      value_template: "{%if states.binary_sensor.downstairs_occupancy.state == 'on' %}Occupied{%elif states.binary_sensor.downstairs_occupancy.state == 'off' %}Not Occupied{% endif %}"
+      friendly_name: 'Downstairs Occupancy'
+
+    # harmony_living_room:
+    #   value_template: '{{ states.remote.living_room.attributes.current_activity }}'
+    #   friendly_name: 'Harmony Living Room'
+
+    front_door_battery:
+      value_template: >-
+        {%- if states.zwave.schlage_front_door -%}
+          {{ states.zwave.schlage_front_door.attributes.battery_level }}
+        {%- else -%}
+          n/a
+        {%- endif -%}
+      unit_of_measurement: '%'
+      friendly_name: 'Front Door Lock Battery'
+
+    living_room_shade_battery:
+      value_template: >-
+        {%- if states.zwave.living_room_shade -%}
+          {{ states.zwave.living_room_shade.attributes.battery_level }}
+        {%- else -%}
+          n/a
+        {%- endif -%}
+      unit_of_measurement: '%'
+      friendly_name: 'Living Room Shade Battery'
+
+    laundry_water_sensor_battery:
+      value_template: >-
+        {%- if states.zwave.laundry_room_water -%}
+          {{ states.zwave.laundry_room_water.attributes.battery_level }}
+        {%- else -%}
+          n/a
+        {%- endif -%}
+      unit_of_measurement: '%'
+      friendly_name: 'Laundry Room Water Sensor Battery'
+
+    laundry_room_water:
+      value_template: "{%if states.binary_sensor.laundry_room_water_sensor.state == 'on' %}WATER DETECTED{%elif states.binary_sensor.laundry_room_water_sensor.state == 'off' %}No water detected{% endif %}"
+      friendly_name: 'Laundry Room Water Sensor'
+
+    energy_switch_1_usage_history:
+      friendly_name: "Energy Switch 1 Usage History"
+      unit_of_measurement: 'watts'
+      value_template: >-
+        {{ states.switch.energy_switch_1.attributes.current_power_w }}
+
+    energy_switch_2_usage_history:
+      friendly_name: "Energy Switch 2 Usage History"
+      unit_of_measurement: 'watts'
+      value_template: >-
+        {{ states.switch.energy_switch_2.attributes.current_power_w }}

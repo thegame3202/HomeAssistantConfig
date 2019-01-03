@@ -1,0 +1,11 @@
+upstairs_normal_lights:
+  alias: Upstairs Normal Lights
+  sequence:
+    - service: light.turn_on
+      data:
+        entity_id:
+          - light.upstairslr1
+          - light.upstairslr2
+          - light.upstairslr3
+        brightness: 225
+        xy_color: [0.5119, 0.4147]

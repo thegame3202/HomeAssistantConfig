@@ -1,0 +1,19 @@
+#################################################################
+## Input Select
+#################################################################
+
+  presetlights:
+    name: Preset Lighting
+    options:
+      - Normal
+      - Movie
+      - Party
+      - Valentines Day
+      - Saint Patricks Day
+      - Easter
+      - Memorial Day
+      - Independence Day
+      - Halloween
+      - Thanksgiving
+      - Christmas
+    initial: Normal

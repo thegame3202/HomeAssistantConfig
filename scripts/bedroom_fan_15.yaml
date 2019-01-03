@@ -1,0 +1,14 @@
+bedroom_fan_15:
+  alias: 'Bedroom Fan - 15 Minutes'
+  sequence:
+    - service: fan.turn_on
+      data:
+        speed: low
+        entity_id: fan.ge_master_bedroom_fanswitch_level
+    - delay: 00:15:00
+    - service: fan.turn_off
+      data:
+        entity_id: fan.ge_master_bedroom_fanswitch_level
+    - service: script.turn_off
+      data:
+        entity_id: script.bedroom_fan_15

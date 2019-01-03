@@ -1,0 +1,11 @@
+upstairs_movie_lights:
+  alias: Upstairs Movie Lights
+  sequence:
+    - service: light.turn_on
+      data:
+        entity_id:
+          - light.upstairslr1
+          - light.upstairslr2
+          - light.upstairslr3
+        profile: relax
+        brightness: 15

@@ -1,0 +1,10 @@
+daytime:
+  alias: Daytime
+  sequence:
+    - service: light.turn_on
+      data:
+        entity_id:
+          - group.upstairs_living_room_lights
+          - group.downstairs_living_room_lights
+        brightness: 225
+        xy_color: [0.5119, 0.4147]
